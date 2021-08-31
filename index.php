@@ -25,11 +25,10 @@
                 $post_content = substr($row['post_content'], 0, 200);
                 $post_status = $row["post_status"];
 
-                if ($post_status !== "published") {
-                    echo "<h1 class='text-center'>Ooops! there is no post!</h1>";
+                if (strtolower($post_status) !== "published") {
+                    echo "<h1 class='text-center'>There is nos post</h1>";
                 } else {
             ?>
-
 
             <!-- First Blog Post -->
             <h2>
@@ -48,7 +47,8 @@
             <hr>
             <?php
                 }
-            } ?>
+            }
+            ?>
 
 
 

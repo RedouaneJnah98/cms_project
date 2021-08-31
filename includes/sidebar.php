@@ -1,9 +1,5 @@
  <div class="col-md-4">
 
-
-
-
-
      <!-- Blog Search Well -->
      <div class="well">
          <h4>Blog Search</h4>
@@ -20,13 +16,30 @@
          <!-- /.input-group -->
      </div>
 
+     <!-- Login -->
+     <div class="well">
+         <h4>Login</h4>
+         <form action="includes/login.php" method="POST">
+             <div class="form-group">
+                 <input name="username" type="text" class="form-control" placeholder="Enter Username">
+             </div>
+             <div class="input-group">
+                 <input name="password" type="password" class="form-control" placeholder="Enter Password">
+                 <span class="input-group-btn">
+                     <button class="btn btn-primary" name="login" type="submit">
+                         Submit
+                     </button>
+                 </span>
+             </div>
+         </form>
+         <!-- /.input-group -->
+     </div>
+
      <?php
         $query = "SELECT * FROM categories";
         $select_categories_sidebar = mysqli_query($connection, $query);
 
         ?>
-
-
 
      <!-- Blog Categories Well -->
      <div class="well">

@@ -1,4 +1,4 @@
-<?php include "includes/database.php" ?>
+<?php include "includes/database.php"; ?>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
