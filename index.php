@@ -26,8 +26,6 @@
                 $post_status = $row["post_status"];
 
                 if (strtolower($post_status) !== "published") {
-                    echo "<h1 class='text-center'>There is nos post</h1>";
-                } else {
             ?>
 
             <!-- First Blog Post -->
