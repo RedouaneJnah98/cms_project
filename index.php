@@ -25,7 +25,7 @@
                 $post_content = substr($row['post_content'], 0, 200);
                 $post_status = $row["post_status"];
 
-                if (strtolower($post_status) !== "Published") {
+                if ($post_status === "published") {
             ?>
 
             <!-- First Blog Post -->

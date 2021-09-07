@@ -84,9 +84,10 @@ if (isset($_POST["update_post"])) {
         <select name="post_status">
             <option value="<?php echo $post_status; ?>"><?php echo $post_status; ?></option>
             <?php
-            if ($post_status === "published") {
+            if (strtolower($post_status) === "published") {
                 echo "<option value='draft'>Draft</option>";
-            } else {
+            } elseif (strtolower($post_status) === "draft") {
+
                 echo "<option value='published'>Publish</option>";
             }
             ?>
