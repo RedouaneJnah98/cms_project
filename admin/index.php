@@ -135,6 +135,10 @@
 
             <?php
 
+            $query = "SELECT * FROM posts WHERE post_status = 'published' ";
+            $published_posts = mysqli_query($connection, $query);
+            $published_count = mysqli_num_rows($published_posts);
+
             $query = "SELECT * FROM posts WHERE post_status = 'draft' ";
             $draft_posts = mysqli_query($connection, $query);
             $draft_count = mysqli_num_rows($draft_posts);
@@ -160,16 +164,14 @@
                     var data = google.visualization.arrayToDataTable([
                         ["Data", "Count"],
                         <?php
-                            $element_text = ["Active Posts", "Draft Posts", "Pending Comments", "Subscribers", "Comments", "Users", "Categories"];
-                            $element_count = [$post_count, $draft_count, $unapproved_comments_count, $subscriber_count, $comment_count, $user_count, $categories_count];
+                            $element_text = ["All Posts", "Active Posts", "Draft Posts", "Pending Comments", "Subscribers", "Comments", "Users", "Categories"];
+                            $element_count = [$post_count, $published_count, $draft_count, $unapproved_comments_count, $subscriber_count, $comment_count, $user_count, $categories_count];
 
-                            for ($i = 0; $i < 7; $i++) {
+                            for ($i = 0; $i < 8; $i++) {
                                 echo "['{$element_text[$i]}'" . "," . "{$element_count[$i]}],";
                             }
 
-
                             ?>
-
                     ]);
 
                     var options = {
@@ -191,8 +193,6 @@
         <!-- /.container-fluid -->
 
     </div>
-
-
 
     <!-- /#page-wrapper -->
     <?php include "includes/admin_footer.php" ?>
