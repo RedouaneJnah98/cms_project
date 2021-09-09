@@ -1,3 +1,33 @@
+<?php
+if (isset($_POST["checkboxArray"])) {
+    $checkboxesId = $_POST["checkboxArray"];
+
+    foreach ($checkboxesId as $checkboxId) {
+        $bulkOptions = $_POST["bulk_options"];
+
+        switch ($bulkOptions) {
+            case "published":
+                $query = "UPDATE posts SET post_status = '$bulkOptions' WHERE post_id = $checkboxId";
+                $update_status = mysqli_query($connection, $query);
+                break;
+
+            case "draft":
+                $query = "UPDATE posts SET post_status = '$bulkOptions' WHERE post_id = $checkboxId";
+                $update_status = mysqli_query($connection, $query);
+                break;
+
+            case "delete":
+                $query = "DELETE from posts WHERE post_id = $checkboxId";
+                $update_status = mysqli_query($connection, $query);
+                break;
+
+            default:
+                echo "there is an error";
+        }
+    }
+}
+?>
+
 <form action="" method="POST">
     <table class="table table-bordered table-hover">
 
@@ -13,7 +43,7 @@
 
         </div>
 
-        <div class="col-xs-4">
+        <div class="col-xs-4 form-group">
 
             <input type="submit" name="submit" class="btn btn-success" value="Apply">
             <a class="btn btn-primary" href="posts.php?source=add_post">Add New</a>
@@ -55,7 +85,7 @@
 
                 echo "<tr>";
             ?>
-            <td><input type="checkbox" class="checkboxes" name="checkbox[]" value="<?php echo $post_id; ?>"></td>
+            <td><input type="checkbox" class="checkBoxes" name="checkboxArray[]" value="<?php echo $post_id; ?>"></td>
             <?php
                 echo "<td>$post_id</td>";
                 echo "<td>$post_title</td>";
