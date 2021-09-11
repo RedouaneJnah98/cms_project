@@ -28,9 +28,15 @@ if (isset($_POST['edit_user'])) {
 
     // move_uploaded_file($post_image_temp, "../images/$post_image");
 
-    $query = "UPDATE users SET user_firstname = '{$user_firstname}', user_lastname = '{$user_lastname}', user_role = '{$user_role}', username = '{$username}', user_email = '{$user_email}', user_password = '{$user_password}' WHERE user_id = {$the_user_id} ";
+    $sql = "SELECT randSalt FROM users";
+    $select_query = mysqli_query($connection, $sql);
 
+    $row = mysqli_fetch_array($select_query);
+    $salt = $row["randSalt"];
 
+    $hashedPassword = crypt($user_password, $salt);
+
+    $query = "UPDATE users SET user_firstname = '{$user_firstname}', user_lastname = '{$user_lastname}', user_role = '{$user_role}', username = '{$username}', user_email = '{$user_email}', user_password = '{$hashedPassword}' WHERE user_id = {$the_user_id} ";
 
     $edit_user_query = mysqli_query($connection, $query);
 
@@ -38,7 +44,6 @@ if (isset($_POST['edit_user'])) {
 }
 
 ?>
-
 
 <form action="" method="POST" enctype="multipart/form-data">
 
@@ -54,7 +59,7 @@ if (isset($_POST['edit_user'])) {
 
     <div class=" form-group">
         <select name="user_role" id="">
-            <option value="subscriber"><?php echo $user_role; ?></option>
+            <option value="<?php echo $user_role; ?>"><?php echo $user_role; ?></option>
 
             <?php
             if ($user_role === "admin") {
@@ -63,10 +68,6 @@ if (isset($_POST['edit_user'])) {
                 echo "<option value='admin'>Admin</option>";
             }
             ?>
-
-
-
-
         </select>
     </div>
 
