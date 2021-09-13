@@ -1,3 +1,5 @@
+    <?php include "functions.php"; ?>
+
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -11,10 +13,13 @@
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
+            <!-- USERS ONLINE WITH PHP -->
+            <!-- <li><a href="">Users Online: <?php echo usersOnline(); ?></a></li> -->
+
+            <!-- USERS ONLINE WITH JQUERY WITHOUT REFRESHING -->
+            <li><a href="">Users Online: <span class="usersonline"></span></a></li>
+
             <li><a href="../index.php">Home Page</a></li>
-
-
-
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
 
