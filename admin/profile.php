@@ -72,6 +72,7 @@ if (isset($_POST["edit_user"])) {
                         </div>
 
                         <div class=" form-group">
+
                             <select name="user_role" id="">
                                 <option value="subscriber"><?php echo $user_role; ?></option>
 
@@ -82,9 +83,8 @@ if (isset($_POST["edit_user"])) {
                                     echo "<option value='admin'>Admin</option>";
                                 }
                                 ?>
-
-
                             </select>
+
                         </div>
 
                         <div class="form-group">
