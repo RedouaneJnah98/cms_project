@@ -14,17 +14,7 @@ if (isset($_POST["submit"])) {
 
     if (!empty($username) && !empty($email) && !empty($password)) {
 
-        $query = "SELECT randSalt FROM users";
-        $select_query = mysqli_query($connection, $query);
-
-        if (!$select_query) {
-            die("QUERY FAILED" . mysqli_error($connection));
-        }
-
-        $fetch_data = mysqli_fetch_assoc($select_query);
-        $salt = $fetch_data["randSalt"];
-        $password = crypt($password, $salt);
-        // $password = password_hash($password, PASSWORD_DEFAULT);
+        $password = password_hash($password, PASSWORD_BCRYPT, ["cost" => 12]);
 
         $query = "INSERT INTO users (username, user_email, user_password, user_role) VALUES ('{$username}', '{$email}', '{$password}', 'subscriber')";
         $register_query = mysqli_query($connection, $query);

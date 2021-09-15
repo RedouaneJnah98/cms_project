@@ -8,7 +8,7 @@ if (isset($_GET["edit_user"])) {
     while ($row = mysqli_fetch_assoc($select_users_query)) {
         $user_id = $row["user_id"];
         $username = $row["username"];
-        $user_password = $row["user_password"];
+        $db_user_password = $row["user_password"];
         $user_firstname = $row["user_firstname"];
         $user_lastname = $row["user_lastname"];
         $user_email = $row["user_email"];
@@ -26,21 +26,24 @@ if (isset($_POST['edit_user'])) {
     $user_email = $_POST["user_email"];
     $user_password = $_POST["user_password"];
 
-    // move_uploaded_file($post_image_temp, "../images/$post_image");
+    if (!empty($user_password)) {
+        $sql = "SELECT user_password FROM users WHERE user_id = $the_user_id";
+        $fetch_user_data = mysqli_query($connection, $sql);
+        $row = mysqli_fetch_array($fetch_user_data);
+        $user_password_db = $row["user_password"];
 
-    $sql = "SELECT randSalt FROM users";
-    $select_query = mysqli_query($connection, $sql);
+        if ($user_password_db != $user_password) {
+            $hashedPassword = password_hash($user_password, PASSWORD_BCRYPT, ["cost" => 12]);
 
-    $row = mysqli_fetch_array($select_query);
-    $salt = $row["randSalt"];
+            $query = "UPDATE users SET user_firstname = '{$user_firstname}', user_lastname = '{$user_lastname}', user_role = '{$user_role}', username = '{$username}', user_email = '{$user_email}', user_password = '{$hashedPassword}' WHERE user_id = {$the_user_id} ";
 
-    $hashedPassword = crypt($user_password, $salt);
+            $edit_user_query = mysqli_query($connection, $query);
 
-    $query = "UPDATE users SET user_firstname = '{$user_firstname}', user_lastname = '{$user_lastname}', user_role = '{$user_role}', username = '{$username}', user_email = '{$user_email}', user_password = '{$hashedPassword}' WHERE user_id = {$the_user_id} ";
+            confirmQuery($edit_user_query);
 
-    $edit_user_query = mysqli_query($connection, $query);
-
-    confirmQuery($edit_user_query);
+            echo "User Updated <a href='users.php'>View Users</a>";
+        }
+    }
 }
 
 ?>

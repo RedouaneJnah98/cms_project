@@ -8,12 +8,10 @@ if (isset($_POST['create_user'])) {
     $user_email = $_POST["user_email"];
     $user_password = $_POST["user_password"];
 
-
-
-    // move_uploaded_file($post_image_temp, "../images/$post_image");
+    $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, ["cost" => 10]);
 
     $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_email,user_password) ";
-    $query .= "VALUES('{$user_firstname}', '{$user_lastname}', '{$user_role}', '{$username}', '{$user_email}', '{$user_password}') ";
+    $query .= "VALUES('{$user_firstname}', '{$user_lastname}', '{$user_role}', '{$username}', '{$user_email}', '{$hashed_password}') ";
 
 
     $create_user_query = mysqli_query($connection, $query);
