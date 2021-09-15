@@ -15,37 +15,39 @@ if (isset($_GET["edit_user"])) {
         $user_image = $row["user_image"];
         $user_role = $row["user_role"];
     }
-}
 
-if (isset($_POST['edit_user'])) {
 
-    $user_firstname = $_POST["user_firstname"];
-    $user_lastname = $_POST["user_lastname"];
-    $user_role = $_POST["user_role"];
-    $username = $_POST["username"];
-    $user_email = $_POST["user_email"];
-    $user_password = $_POST["user_password"];
+    if (isset($_POST['edit_user'])) {
 
-    if (!empty($user_password)) {
-        $sql = "SELECT user_password FROM users WHERE user_id = $the_user_id";
-        $fetch_user_data = mysqli_query($connection, $sql);
-        $row = mysqli_fetch_array($fetch_user_data);
-        $user_password_db = $row["user_password"];
+        $user_firstname = $_POST["user_firstname"];
+        $user_lastname = $_POST["user_lastname"];
+        $user_role = $_POST["user_role"];
+        $username = $_POST["username"];
+        $user_email = $_POST["user_email"];
+        $user_password = $_POST["user_password"];
 
-        if ($user_password_db != $user_password) {
-            $hashedPassword = password_hash($user_password, PASSWORD_BCRYPT, ["cost" => 12]);
+        if (!empty($user_password)) {
+            $sql = "SELECT user_password FROM users WHERE user_id = $the_user_id";
+            $fetch_user_data = mysqli_query($connection, $sql);
+            $row = mysqli_fetch_array($fetch_user_data);
+            $user_password_db = $row["user_password"];
 
-            $query = "UPDATE users SET user_firstname = '{$user_firstname}', user_lastname = '{$user_lastname}', user_role = '{$user_role}', username = '{$username}', user_email = '{$user_email}', user_password = '{$hashedPassword}' WHERE user_id = {$the_user_id} ";
+            if ($user_password_db != $user_password) {
+                $hashedPassword = password_hash($user_password, PASSWORD_BCRYPT, ["cost" => 12]);
 
-            $edit_user_query = mysqli_query($connection, $query);
+                $query = "UPDATE users SET user_firstname = '{$user_firstname}', user_lastname = '{$user_lastname}', user_role = '{$user_role}', username = '{$username}', user_email = '{$user_email}', user_password = '{$hashedPassword}' WHERE user_id = {$the_user_id} ";
 
-            confirmQuery($edit_user_query);
+                $edit_user_query = mysqli_query($connection, $query);
 
-            echo "User Updated <a href='users.php'>View Users</a>";
+                confirmQuery($edit_user_query);
+
+                echo "User Updated <a href='users.php'>View Users</a>";
+            }
         }
     }
+} else {
+    header("Location: index.php");
 }
-
 ?>
 
 <form action="" method="POST" enctype="multipart/form-data">
@@ -87,7 +89,7 @@ if (isset($_POST['edit_user'])) {
 
     <div class=" form-group">
         <label for="password">User Password</label>
-        <input type="password" class="form-control" name="user_password" value="<?php echo $user_password; ?>">
+        <input type="password" class="form-control" name="user_password" autocomplete="off">
     </div>
 
     <div class=" form-group">
