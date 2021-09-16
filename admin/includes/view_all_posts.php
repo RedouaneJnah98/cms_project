@@ -102,6 +102,7 @@ if (isset($_POST["checkboxArray"])) {
                 $post_id = $row["post_id"];
                 $post_title = $row["post_title"];
                 $post_author = $row["post_author"];
+                $post_user = $row["post_user"];
                 $post_category_id = $row["post_category_id"];
                 $post_status = $row["post_status"];
                 $post_image = $row["post_image"];
@@ -116,7 +117,12 @@ if (isset($_POST["checkboxArray"])) {
             <?php
                 echo "<td>$post_id</td>";
                 echo "<td>$post_title</td>";
-                echo "<td>$post_author</td>";
+
+                if (!empty($post_author)) {
+                    echo "<td>$post_author</td>";
+                } elseif (!empty($post_user)) {
+                    echo "<td>$post_user</td>";
+                }
 
                 $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
                 $select_category = mysqli_query($connection, $query);
