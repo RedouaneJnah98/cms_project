@@ -8,23 +8,12 @@
 <?php
 
 if (isset($_POST["submit"])) {
-    $username = mysqli_real_escape_string($connection, $_POST["username"]);
-    $email = mysqli_real_escape_string($connection, $_POST["email"]);
-    $password = mysqli_real_escape_string($connection, $_POST["password"]);
+    $to = "jnahtech@gmail.com";
+    $subject = wordwrap($_POST["subject"], 70);
+    $message = $_POST["message"];
+    $header = "From:" . $_POST["email"] . "\r\n";
 
-    if (!empty($username) && !empty($email) && !empty($password)) {
-
-        $password = password_hash($password, PASSWORD_BCRYPT, ["cost" => 12]);
-
-        $query = "INSERT INTO users (username, user_email, user_password, user_role) VALUES ('{$username}', '{$email}', '{$password}', 'subscriber')";
-        $register_query = mysqli_query($connection, $query);
-
-        $message = "Your registration has been submitted";
-    } else {
-        $message = "Fields cannot be empty";
-    }
-} else {
-    $message = "";
+    mail($to, $subject, $message, $header);
 }
 
 ?>
@@ -38,9 +27,7 @@ if (isset($_POST["submit"])) {
                 <div class="col-xs-6 col-xs-offset-3">
                     <div class="form-wrap">
                         <h1>Contact Us</h1>
-                        <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
-
-                            <h6 class="text-center"><?php echo $message; ?></h6>
+                        <form role="form" action="contact.php" method="post" id="login-form" autocomplete="off">
 
                             <div class="form-group">
                                 <label for="email" class="sr-only">Email</label>
@@ -53,7 +40,8 @@ if (isset($_POST["submit"])) {
                                     placeholder="Enter your subject">
                             </div>
                             <div class="form-group">
-                                <textarea name="body" id="body" class="form-control" cols="50" rows="10"></textarea>
+                                <textarea name="message" id="message" class="form-control" cols="50"
+                                    rows="10"></textarea>
                             </div>
 
                             <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block"
