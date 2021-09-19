@@ -21,18 +21,22 @@
 
             if (isset($_GET["category"])) {
                 $post_category = $_GET["category"];
-            }
 
-            $query = "SELECT * FROM posts WHERE post_category_id = $post_category";
-            $select_all_posts = mysqli_query($connection, $query);
 
-            while ($row = mysqli_fetch_assoc($select_all_posts)) {
-                $post_id = $row['post_id'];
-                $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
-                $post_date = $row['post_date'];
-                $post_image = $row['post_image'];
-                $post_content = substr($row['post_content'], 0, 200);
+                $query = "SELECT * FROM posts WHERE post_category_id = $post_category AND post_status = 'published'";
+                $select_all_posts = mysqli_query($connection, $query);
+
+                if (mysqli_num_rows($select_all_posts) < 1) {
+                    echo "<h1 class='text-center'>No post available</h1>";
+                } else {
+
+                    while ($row = mysqli_fetch_assoc($select_all_posts)) {
+                        $post_id = $row['post_id'];
+                        $post_title = $row['post_title'];
+                        $post_author = $row['post_author'];
+                        $post_date = $row['post_date'];
+                        $post_image = $row['post_image'];
+                        $post_content = substr($row['post_content'], 0, 200);
             ?>
 
 
@@ -51,7 +55,11 @@
             <a class="btn btn-primary" href="#">Read More <span class="glyphicon glyphicon-chevron-right"></span></a>
 
             <hr>
-            <?php   } ?>
+            <?php   }
+                }
+            } else {
+                header("Location: index.php");
+            } ?>
 
 
 
